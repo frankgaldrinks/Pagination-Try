@@ -1,6 +1,21 @@
 var data = require('../lib/data');
 var Paginate = require('../lib/paginator')
 
+var querydefaults = {
+  page: {
+    default: 1,
+    min: 1,
+    max: false,
+    allowed: false
+  },
+  display: {
+    default: 10,
+    min: 10,
+    max: 100,
+    allowed: [10,25,50,100]
+  }
+}
+
 function validateReqQuery (req, queryname) {
   var passed = true;
 
@@ -29,24 +44,11 @@ module.exports = function () {
   functions.list = function (req, res) {
     //make this so you can send in an object of defaults like page, display
     var dataCount = data.length;
-    var querydefaults = {
-      page: {
-        default: 1,
-        min: 1,
-        max: false,
-        allowed: false;
-      },
-      display: {
-        default: 10,
-        min: 10,
-        max: 100,
-        allowed: [10,25,50,100]
-      }
-    }
-    var Paginator = new Paginate(dataCount, );
+    
+    var Paginator = new Paginate(dataCount, querydefaults);
 
     
-    var queries = Paginator.validateReqQuery({page: req.query.page, display: req.query.display});
+    var queries = Paginator.validateReqQuery({display: req.query.display, page: req.query.page});
     // var page = validateReqQuery(req, "page") ? req.query.page : 1;
     // var display = validateReqQuery(req, "display") ? req.query.display : 10;
 
