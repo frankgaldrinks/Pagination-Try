@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  #contain-area
+    h2 Results
+    #results
+      each state in states
+        p #{state.name}
+    #pagination-area
+        ul.pagination
+          != renderPagination

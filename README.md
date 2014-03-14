@@ -1,1 +1,2 @@
-**Pagination try \n ****A minimal pagination module for expressjs
+**Pagination try
+****A minimal pagination module for expressjs

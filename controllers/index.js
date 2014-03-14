@@ -16,24 +16,6 @@ var querydefaults = {
   }
 }
 
-function validateReqQuery (req, queryname) {
-  var passed = true;
-
-  if (typeof req.query[queryname] === undefined) {
-    return false;
-  }
-
-  if (!validator.isNumeric(req.query[queryname])) {
-    return false;
-  }
-
-  if (parseInt(req.query[queryname]) === 0) {
-    return false;
-  }
-
-  return true;
-}
-
 module.exports = function () {
   var functions = {};
 
@@ -41,23 +23,33 @@ module.exports = function () {
     res.render('index', {title: "Pagination Test"});
   };
 
-  functions.list = function (req, res) {
+  functions.states = function (req, res) {
     //make this so you can send in an object of defaults like page, display
-    var dataCount = data.length;
+    var dataCount = data.states.length;
     
     var Paginator = new Paginate(dataCount, querydefaults);
-
-    
     var queries = Paginator.validateReqQuery({display: req.query.display, page: req.query.page});
-    // var page = validateReqQuery(req, "page") ? req.query.page : 1;
-    // var display = validateReqQuery(req, "display") ? req.query.display : 10;
 
-    var states = data.slice(queries.beginRange, queries.endRange);
+    res.locals.renderPagination = Paginator.renderPagination(req);
 
-    res.locals.renderPagination = Paginator.renderPagination(dataCount);
-
-    res.render('list', {title: "Pagination Test", states: states });
+    states = data.states.slice(queries.beginRange, queries.endRange);
+    res.render('states', {title: "Pagination Test", states: states });
   };
+
+  functions.countries = function (req, res) {
+    //make this so you can send in an object of defaults like page, display
+    var dataCount = data.countries.length;
+    
+    var Paginator = new Paginate(dataCount, querydefaults);
+    var queries = Paginator.validateReqQuery({display: req.query.display, page: req.query.page});
+
+    res.locals.renderPagination = Paginator.renderPagination(req);
+
+    countries = data.countries.slice(queries.beginRange, queries.endRange);
+    res.render('countries', {title: "Pagination Test", countries: countries });
+  };
+
+
 
   return functions;
 };
