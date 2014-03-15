@@ -35,3 +35,7 @@ a {
   /*ultext-align: center;
   margin: 0 auto;*/
 }
+
+.home > a {
+  padding: 10px 0;
+}

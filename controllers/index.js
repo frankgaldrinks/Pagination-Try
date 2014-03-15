@@ -1,5 +1,6 @@
 var data = require('../lib/data');
 var Paginate = require('../lib/paginator')
+var pagin = require('nodejs-yapaginate');
 
 var querydefaults = {
   page: {
@@ -47,6 +48,11 @@ module.exports = function () {
 
     countries = data.countries.slice(queries.beginRange, queries.endRange);
     res.render('countries', {title: "Pagination Test", countries: countries });
+  };
+
+  functions.ytest = function (req, res) {
+    var perpage = req.query.perpage || 10;
+    console.log(pagin({totalItem:100, itemPerPage:10, currentPage:1, url:'/mybeautifulapp'}));
   };
 
 
